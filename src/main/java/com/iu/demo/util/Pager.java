@@ -12,7 +12,29 @@ public class Pager {
 	private Integer startRow;
 	
 	public void calRow() {
-		this.startRow = (this.getPage()-1)*this.perPage;
+		this.startRow = (this.getPage()-1)*this.getPerPage();
 	}
+	
+	public Integer getPage() {
+		if(this.page==null) {
+			this.page = 1;
+		}
+		return this.page;
+	}
+	
+	public Integer getPerPage() {
+		if(this.perPage == null) {
+			this.perPage=10;
+		}
+		return this.perPage;
+	}
+	
+	public String getSearch() {
+		if(this.search==null) {
+			this.search="";
+		}
+		return this.search;
+	}
+	
 	
 }
