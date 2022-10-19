@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		  
+<mapper namespace="com.iu.demo.board.qna.QnaMapper">
+	<select id="getList" resultType="QnaVO" parameterType="Pager">
+		select * 
+		from QNA
+		WHERE writer LIKE CONCAT('%',#{search},'%')
+		ORDER BY NUM DESC 
+		LIMIT #{startRow},#{perPage}
+	</select>
+	
+	<insert id="addQna">
+		INSERT INTO QNA VALUES (0, #{writer},#{title}, #{contents},0,SYSDATE(),0,0,0)
+	</insert>
+</mapper>
