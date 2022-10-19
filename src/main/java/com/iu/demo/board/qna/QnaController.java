@@ -2,6 +2,8 @@ package com.iu.demo.board.qna;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +42,27 @@ public class QnaController {
 	}
 	
 	@PostMapping("write")
-	public String write(QnaVO qna, RedirectAttributes redirectAttributes) throws Exception{
-		int result = qnaService.write(qna);
-		log.info("result{}", result);
+	public String write(QnaVO qna, RedirectAttributes redirectAttributes, HttpSession session) throws Exception{
+		int result = qnaService.write(qna, session);
+		log.info("result : {}", result);
 		
+
 		//redirectAttribute는 인터페이스 형식이다.
 		//아래 mv 방식으로는 result를 꺼내쓸 수 없다.
 //		mv.addObject("result", result);
 //		mv.setViewName("redirect:./list");
 		
 		redirectAttributes.addAttribute("result", result);
-		return "redirect:./write";
+		return "";
+	}
+	
+	@GetMapping("detail")
+	public ModelAndView getDetail(QnaVO qnaVO, ModelAndView mv)throws Exception{
+		qnaVO = qnaService.getDetail(qnaVO);
+		
+		mv.addObject("qnaVO", qnaVO);
+		mv.setViewName("board/detail");
+		
+		return mv;
 	}
 }

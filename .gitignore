@@ -173,11 +173,11 @@ replay_pid*
 *.asp
 *.cer
 *.csr
-*.css
+#*.css
 *.htm
 *.html
-*.js
-*.jsp
+#*.js
+#*.jsp
 *.php
 *.rss
 *.wasm

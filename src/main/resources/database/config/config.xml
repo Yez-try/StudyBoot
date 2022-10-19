@@ -7,5 +7,7 @@
   	<typeAliases>
   		<typeAlias type="com.iu.demo.util.Pager" alias="Pager"/>
   		<typeAlias type="com.iu.demo.board.qna.QnaVO" alias="QnaVO"/>
+  		<typeAlias type="com.iu.demo.board.qna.QnaFileVO" alias="QnaFileVO"/>
+  		<typeAlias type="java.util.List" alias="List"/>
   	</typeAliases>
   </configuration>

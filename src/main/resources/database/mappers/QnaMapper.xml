@@ -4,7 +4,7 @@
 		    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		  
 <mapper namespace="com.iu.demo.board.qna.QnaMapper">
-	<select id="getList" resultType="QnaVO" parameterType="Pager">
+	<select id="getList" resultType="QnaVO" parameterType="Pager" >
 		select * 
 		from QNA
 		WHERE writer LIKE CONCAT('%',#{search},'%')
@@ -12,7 +12,31 @@
 		LIMIT #{startRow},#{perPage}
 	</select>
 	
-	<insert id="addQna">
+	<!-- useGeneratedKeys="true" DB에서 autoincrement되는 값을 사용하겠다. -->
+	<insert id="addQna" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="num">
 		INSERT INTO QNA VALUES (0, #{writer},#{title}, #{contents},0,SYSDATE(),0,0,0)
 	</insert>
+	
+	<insert id="setFileAdd" parameterType="QnaFileVO">
+		INSERT INTO QNAFILES VALUES (0,#{num}, #{fileName}, #{oriName})
+	</insert>
+	
+	<select id="getDetail" parameterType="QnaVO" resultMap="detailResult">
+		select * 
+		from QNA Q
+		LEFT JOIN QNAFILES F 
+		ON Q.num = F.NUM
+		WHERE Q.num = #{num}
+	</select>
+	
+	<resultMap type="QnaVO" id="detailResult">
+		<id column="num" property="num"/>
+		<result column="title" property="title"/>
+		<result column="regDate" property="regDate"/>
+		<collection property="fileVOs" ofType="QnaFileVO" javaType="List">
+			<id column="FILENUM" property="fileNum"/>
+			<result column="FILENAME" property="fileName"/>
+			<result column="ORINAME" property="oriName"/>
+		</collection>
+	</resultMap>
 </mapper>
