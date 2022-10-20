@@ -13,6 +13,7 @@
 	<h1>index</h1>
 	<img src="/images/style.jpg">
 	<a href="./qna/list?page=1&search=2&perPage=10">에스파는 나야 둘이 될 수 없어~</a>
-	<a href="/file/qna/yez.zip">다운로드</a>
+	<a href="/fileDown/qna?fileNum=2">다운로드</a>
+	<a href="/fileDown/notice?fileNum=2">notice download</a>
 </body>
 </html>
