@@ -53,7 +53,7 @@ public class QnaController {
 //		mv.setViewName("redirect:./list");
 		
 		redirectAttributes.addAttribute("result", result);
-		return "";
+		return "redirect:./detail?num="+qna.getNum();
 	}
 	
 	@GetMapping("detail")

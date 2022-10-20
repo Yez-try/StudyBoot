@@ -12,8 +12,10 @@
 	
 	<div>${qnaVO.title}</div>
 	<div>${qnaVO.regDate}</div>
+	<div>
+	</div>
 	<c:forEach items="${qnaVO.fileVOs}" var="file">
-		<div><img src="">${file.fileName}</div>
+		<div><img alt="" src="/file/qna/${file.fileName}"></div>
 	</c:forEach>
 
 </body>
