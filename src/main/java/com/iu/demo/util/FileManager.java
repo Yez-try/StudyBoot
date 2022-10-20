@@ -26,6 +26,11 @@ public class FileManager {
 		bf.append("_");
 		bf.append(multipartFile.getOriginalFilename());
 		
+		//한글 파일이 문제인경우, origanalName의 한글은 빼고 확장자만 가져와보자
+		String ex = multipartFile.getOriginalFilename();
+		ex = ex.substring(ex.lastIndexOf(".")); // 뒤에서부터 점의 위치를 찾고 거기부터 끝까지 가져와라
+		log.info("확장자 : {}",ex);
+		
 		log.info("fileName {}", bf.toString());
 		
 		//filesave
@@ -37,4 +42,8 @@ public class FileManager {
 		
 		return bf.toString();
 	}
+	
+	//파일 삭제
+	
+	
 }
