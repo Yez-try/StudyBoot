@@ -35,6 +35,6 @@ public class FileManager {
 		multipartFile.transferTo(file);//
 		
 		
-		return file.getPath();
+		return bf.toString();
 	}
 }

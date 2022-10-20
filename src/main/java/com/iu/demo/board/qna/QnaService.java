@@ -40,7 +40,7 @@ public class QnaService {
 	public int write(QnaVO qnaVO, HttpSession session) throws Exception{
 		
 		int result = qnaMapper.addQna(qnaVO);
-		String realPath = session.getServletContext().getRealPath("/static/upload/qna2");
+//		String realPath = session.getServletContext().getRealPath("/static/upload/qna2");
 		
 		log.info("realPath : {}",path);
 		
