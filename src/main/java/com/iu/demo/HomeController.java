@@ -15,6 +15,8 @@ import com.iu.demo.board.qna.QnaVO;
 
 @Controller
 public class HomeController {
+	@Value("${my.default}")
+	private String app;
 
 	@Autowired
 	private QnaMapper qnaMapper;
@@ -27,12 +29,9 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home() throws Exception {
-		log.error("Error Message");
-		log.warn("Warn message");
-		log.info("Info Meessage");
-		log.debug("Debug Message");
-		log.trace("Trace Message");
-		System.out.println("message: "+ message);
+		log.info("========================================");
+		log.info("message {}", message);
+		log.info("default {}", app);
 //		
 //		List<QnaVO> ar = qnaMapper.getList();
 //		

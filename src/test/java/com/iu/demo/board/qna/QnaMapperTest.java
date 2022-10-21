@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.iu.demo.util.Pager;
@@ -19,6 +20,9 @@ import com.iu.demo.util.Pager;
 @SpringBootTest
 class QnaMapperTest {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	@Value("${my.default}")
+	private String app;
 
 	@Autowired
 	private QnaMapper qnaMapper;
@@ -60,21 +64,21 @@ class QnaMapperTest {
 //		log.info("TEst2 case");
 //	}
 	
-//	@Test
+	@Test
 	void inserttest() throws Exception{
-		
-		for(int i = 0; i<100; i++) {
+		log.info("------------{}-----------------------", app);
+//		for(int i = 0; i<100; i++) {
 			
 			QnaVO qna = new QnaVO();
-			qna.setContents("콘텐츠"+i);
-			qna.setTitle("타이틀"+i);
-			qna.setWriter("라이터"+i);
+			qna.setContents("콘텐츠");
+			qna.setTitle("타이틀");
+			qna.setWriter("라이터");
 			
 			int result = qnaMapper.addQna(qna);
 			
 			log.info("result{}", result);
 			assertEquals(1,result);
-		}
+//		}
 	}
 	
 //	@Test
