@@ -43,7 +43,7 @@ class QnaMapperTest {
 //		System.out.println("전체 테스트 실행 후 한번 실행");
 //	}
 //	
-	@BeforeEach
+//	@BeforeEach
 	void beforEach() {
 		log.info("비포이치 테스트 메서드 실행 전");
 		pager = new Pager();
@@ -64,7 +64,7 @@ class QnaMapperTest {
 //		log.info("TEst2 case");
 //	}
 	
-	@Test
+//	@Test
 	void inserttest() throws Exception{
 		log.info("------------{}-----------------------", app);
 //		for(int i = 0; i<100; i++) {
