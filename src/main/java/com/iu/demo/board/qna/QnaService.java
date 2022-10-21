@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.iu.demo.util.FileManager;
@@ -37,7 +38,8 @@ public class QnaService {
 		return lst;
 	}
 	
-	public int write(QnaVO qnaVO, HttpSession session) throws Exception{
+	@Transactional(rollbackFor = Exception.class)
+	public int setWrite(QnaVO qnaVO, HttpSession session) throws Exception{
 		
 		int result = qnaMapper.addQna(qnaVO);
 //		String realPath = session.getServletContext().getRealPath("/static/upload/qna2");
@@ -50,7 +52,13 @@ public class QnaService {
 			boolean chk = file.mkdirs();
 			log.info("chk : {}",chk);
 		}
-		for(MultipartFile f:qnaVO.getFiles()) {
+		for(MultipartFile f:qnaVO.getFiless()) {
+			
+			log.info("f?????{}", f.isEmpty());
+			if(f.isEmpty()) {
+				log.info("Exception 발생");
+				throw new Exception();
+			}
 			if(!f.isEmpty()) {
 				String fileName = fileManager.saveFile(f, path); //0번째는 무조건 비어있음...?
 				log.info("filName: {}",fileName);
@@ -64,6 +72,6 @@ public class QnaService {
 		}
 		
 	
-		return 1;
+		return result;
 	}
 }

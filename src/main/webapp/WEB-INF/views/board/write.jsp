@@ -28,11 +28,11 @@
 			</div>	
 			<div>
 				<label for="files">파일</label>
-				<input type="file" id="files" name="files">
+				<input type="file" id="filess" name="filess">
 			</div>	
 			<div>
 				<label for="files">파일</label>
-				<input type="file" id="files" name="files">
+				<input type="file" id="filess" name="filess">
 			</div>
 			
 			<button type="submit">작성하기</button>

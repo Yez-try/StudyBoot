@@ -37,15 +37,13 @@ public class QnaController {
 	}
 	
 	@GetMapping("write")
-	public String write() throws Exception{
+	public String Write() throws Exception{
 		return "board/write";
 	}
 	
 	@PostMapping("write")
-	public String write(QnaVO qna, RedirectAttributes redirectAttributes, HttpSession session) throws Exception{
-		int result = qnaService.write(qna, session);
-		log.info("result : {}", result);
-		
+	public String setWrite(QnaVO qna, RedirectAttributes redirectAttributes, HttpSession session) throws Exception{
+		int result = qnaService.setWrite(qna, session);
 
 		//redirectAttribute는 인터페이스 형식이다.
 		//아래 mv 방식으로는 result를 꺼내쓸 수 없다.

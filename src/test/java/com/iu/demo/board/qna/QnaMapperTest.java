@@ -13,10 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iu.demo.util.Pager;
 
 @SpringBootTest
+@Transactional //전부 롤백시켜준다.
 class QnaMapperTest {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -60,21 +63,21 @@ class QnaMapperTest {
 //		log.info("TEst2 case");
 //	}
 	
-//	@Test
+	@Test
 	void inserttest() throws Exception{
 		
-		for(int i = 0; i<100; i++) {
+//		for(int i = 0; i<100; i++) {
 			
 			QnaVO qna = new QnaVO();
-			qna.setContents("콘텐츠"+i);
-			qna.setTitle("타이틀"+i);
-			qna.setWriter("라이터"+i);
+			qna.setContents("콘텐츠");
+			qna.setTitle("타이틀");
+			qna.setWriter("라이터");
 			
 			int result = qnaMapper.addQna(qna);
 			
 			log.info("result{}", result);
 			assertEquals(1,result);
-		}
+//		}
 	}
 	
 //	@Test

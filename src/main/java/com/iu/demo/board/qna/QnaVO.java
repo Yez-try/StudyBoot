@@ -19,7 +19,7 @@ public class QnaVO { //VO는 Value Object DTO와 비슷한 역할
 	private Long ref;
 	private Long step;
 	private Long depth;
-	private MultipartFile[] files;
+	private MultipartFile[] filess;
 	private List<QnaFileVO> fileVOs;
 	
 
