@@ -64,6 +64,6 @@ public class QnaService {
 		}
 		
 	
-		return 1;
+		return result;
 	}
 }
