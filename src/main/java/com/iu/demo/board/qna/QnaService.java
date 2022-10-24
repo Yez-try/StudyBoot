@@ -23,8 +23,9 @@ public class QnaService {
 	private QnaMapper qnaMapper;
 	@Autowired
 	private FileManager fileManager;
-	@Value("${my.upload.qna}")
+	@Value("${my.upload.file}")
 	private String path;
+	
 	
 	public QnaVO getDetail(QnaVO qnaVO) throws Exception{
 		return qnaMapper.getDetail(qnaVO);
@@ -42,6 +43,7 @@ public class QnaService {
 		int result = qnaMapper.addQna(qnaVO);
 //		String realPath = session.getServletContext().getRealPath("/static/upload/qna2");
 		
+		path = path+"qna/";
 		log.info("realPath : {}",path);
 		
 		File file = new File(path);
