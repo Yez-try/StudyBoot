@@ -25,6 +25,7 @@ public class QnaService {
 	private FileManager fileManager;
 	@Value("${my.upload.file}")
 	private String path;
+	private String folder = "qna/";
 	
 	
 	public QnaVO getDetail(QnaVO qnaVO) throws Exception{
@@ -43,10 +44,10 @@ public class QnaService {
 		int result = qnaMapper.addQna(qnaVO);
 //		String realPath = session.getServletContext().getRealPath("/static/upload/qna2");
 		
-		path = path+"qna/";
-		log.info("realPath : {}",path);
+//		path = path+"qna/";//이렇게 하면 올릴때마다 계속 QNA폴더가 생성됨..
+		log.info("realPath : {}",path+folder);
 		
-		File file = new File(path);
+		File file = new File(path+folder);
 		
 		if(!file.exists()) {
 			boolean chk = file.mkdirs();
@@ -54,7 +55,7 @@ public class QnaService {
 		}
 		for(MultipartFile f:qnaVO.getFiles()) {
 			if(!f.isEmpty()) {
-				String fileName = fileManager.saveFile(f, path); //0번째는 무조건 비어있음...?
+				String fileName = fileManager.saveFile(f, path+folder); //0번째는 무조건 비어있음...?
 				log.info("filName: {}",fileName);
 				QnaFileVO fileVO = new QnaFileVO();
 				fileVO.setNum(qnaVO.getNum());
