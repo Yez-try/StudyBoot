@@ -11,9 +11,23 @@
 </head>
 <body>
 	<h1>index</h1>
+	<a href="/member/join">회원가입</a>
+	<a href="/member/login">로그인</a><br>
+	
 	<img src="/images/style.jpg">
 	<a href="./qna/list?page=1&search=2&perPage=10">에스파는 나야 둘이 될 수 없어~</a>
 	<a href="/fileDown/qna?fileNum=2">다운로드</a>
 	<a href="/fileDown/notice?fileNum=2">notice download</a>
+
+	<script type="text/javascript">
+		let result ='${param.result}';
+		if(result!= ""){
+			if(result=='1'){
+				alert('회원가입 성공!');
+			}else{
+				alert('회원가입 실패');
+			}
+		}
+	</script>
 </body>
 </html>
