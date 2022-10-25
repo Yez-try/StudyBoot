@@ -15,7 +15,10 @@
 	<div>
 	</div>
 	<c:forEach items="${qnaVO.fileVOs}" var="file">
-		<div><a href="/file/qna/${file.fileName}">이미지 파일</a></div>
+		<div>보여주기</div>
+		<div><img alt="" src="/file/qna/${file.fileName}"></div>
+		<div>다운로드 하기</div>
+		<div><a href="/fileDown/qna?fileNum=${file.fileNum}">${file.oriName}</a></div>
 	</c:forEach>
 
 </body>

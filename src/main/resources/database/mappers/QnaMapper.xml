@@ -4,8 +4,13 @@
 		    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 		  
 <mapper namespace="com.iu.demo.board.qna.QnaMapper">
+
+	<select id="getFileDetail" resultType="QnaFileVO" parameterType="QnaFileVO">
+		select * from QNAFILES WHERE FILENUM = #{fileNum}
+	</select>
+	
 	<select id="getList" resultType="QnaVO" parameterType="Pager" >
-		select * 
+		select num, title, contents, regDate, writer
 		from QNA
 		WHERE writer LIKE CONCAT('%',#{search},'%')
 		ORDER BY NUM DESC 

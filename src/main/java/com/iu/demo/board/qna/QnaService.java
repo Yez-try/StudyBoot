@@ -27,6 +27,9 @@ public class QnaService {
 	private String path;
 	private String folder = "qna/";
 	
+	public QnaFileVO getFileDetail(QnaFileVO fileVO) throws Exception{
+		return qnaMapper.getFileDetail(fileVO);
+	}
 	
 	public QnaVO getDetail(QnaVO qnaVO) throws Exception{
 		return qnaMapper.getDetail(qnaVO);

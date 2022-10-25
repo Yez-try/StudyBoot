@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 //abstarctView는 스프링이 인정하는 view 클래스이다. (이렇게 만든 View 클래스를 Custom View 라고 한다.)
 public class FileManager extends AbstractView {
 
+	@Value("${my.upload.file}")
+	private String base;
+	
 	@Override // 이게 다운로드를 걸어주는 메서드
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -39,7 +43,7 @@ public class FileManager extends AbstractView {
 		log.info("---------------------------------------");
 		log.info("qnaFileVO:{}",fileVO);
 		
-		File file = new File("D:/result/upload/"+path+"/", fileVO.getFileName());
+		File file = new File(base+path+"/", fileVO.getFileName());
 		
 		//한글 처리 
 		response.setCharacterEncoding("UTF-8");
