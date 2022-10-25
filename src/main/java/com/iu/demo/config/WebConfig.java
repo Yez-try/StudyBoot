@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.extern.slf4j.Slf4j;
 
-//설정 파일 WebMvcConfigurer 를 상속해준다.
+//설정 파일 WebMvcConfigurer 를 상속해준다. ***-context.xml역할
 //@Component //객체를 만들고 실행은 안함. 필요할때 주입시켜서 사용
 @Configuration //설정 파일을 만드는 객체
 @Slf4j
