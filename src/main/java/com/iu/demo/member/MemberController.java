@@ -25,6 +25,12 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@PostMapping("idCheck")
+	public int checkID(MemberVO member) throws Exception{
+		log.info("idCheck:{}", member);
+		return memberService.checkID(member);
+	}
+	
 	@GetMapping("join")
 	public void setJoin() throws Exception{
 		log.info("joinController");

@@ -9,5 +9,6 @@ public interface MemberDAO {
 	// ROLES의 NUM (ADMIN : 1, MANAGER : 2, MEMBER : 3)
 	public int setRole(MemberRoleVO memberRoleVO) throws Exception;
 	public MemberVO getLogin(MemberVO memberVO) throws Exception;
+	public int checkID(MemberVO memberVO) throws Exception;
 
 }

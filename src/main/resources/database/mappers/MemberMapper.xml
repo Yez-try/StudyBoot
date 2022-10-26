@@ -5,6 +5,10 @@
 		    
 <mapper namespace="com.iu.demo.member.MemberDAO">
 
+	<select id="checkID" parameterType="MemberVO" resultType="Integer">
+		SELECT COUNT(*) FROM MEMBER WHERE id=#{id}
+	</select>
+
 	<insert id="setJoin" parameterType="MemberVO">
 		INSERT INTO MEMBER(id, password, name, email)
 		VALUES (#{id}, #{password}, #{name}, #{email})

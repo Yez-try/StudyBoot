@@ -13,6 +13,10 @@ public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
 	
+	public int checkID(MemberVO memberVO) throws Exception{
+		return memberDAO.checkID(memberVO);
+	}
+	
 	public int setJoin(MemberVO memberVO)throws Exception{
 		int result = memberDAO.setJoin(memberVO);
 		
