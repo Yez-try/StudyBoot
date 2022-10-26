@@ -8,8 +8,10 @@
 <title>Insert title here</title>
 	<c:import url="./temp/boot.jsp"></c:import>
 	<link href="/css/test.css" rel="stylesheet"/>
+	<script defer src="/js/test.js"></script>
 </head>
 <body>
+	
 	<h1>index</h1>
 	<a href="/member/join">회원가입</a>
 	<c:choose>
@@ -27,6 +29,15 @@
 	<a href="./qna/list?page=1&search=2&perPage=10">에스파는 나야 둘이 될 수 없어~</a>
 	<a href="/fileDown/qna?fileNum=2">다운로드</a>
 	<a href="/fileDown/notice?fileNum=2">notice download</a>
+	
+	<button type="button" id="btn">클릭</button>
+	<button type="button" class="btn btns">버튼즈</button>
+	<button type="button" class="btn btns">버튼즈</button>
+	<button type="button" class="btn btns">버튼즈</button>
+	
+	<div id="test">
+	
+	</div>
 
 	<script type="text/javascript">
 		let result ='${param.result}';
@@ -38,5 +49,6 @@
 			}
 		}
 	</script>
+
 </body>
 </html>

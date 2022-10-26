@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 페이지</title>
+<c:import url="../temp/boot.jsp"></c:import>
 </head>
 <body>
-<c:import url="../temp/boot.jsp"></c:import>
 <div class="container">
 	<div class="row my-5">
 		<div class="col text-center">
