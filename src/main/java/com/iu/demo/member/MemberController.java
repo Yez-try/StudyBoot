@@ -47,11 +47,13 @@ public class MemberController {
 	
 	
 	@PostMapping("login")
-	public String getLogin(MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public String getLogin(MemberVO memberVO, HttpSession session, HttpServletResponse response) throws Exception{
 		log.info("MemberVO {}", memberVO);
 		memberVO= memberService.getLogin(memberVO);
 		
-		HttpSession session = request.getSession();
+		//tcp 신뢰성 있는 연결, 응답이 무조건 오는 연결방식
+		// session을 사용하면 요청이 발생하면 요청에 대해 request객체를 만들어 담는다.
+		// 쿠키에 SessionID를 담아서 보내주는데...
 		session.setAttribute("member", memberVO);
 		
 		Cookie cookie = new Cookie("login", memberVO.getId());
@@ -62,8 +64,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("logout")
-	public void logout(MemberVO memberVO) throws Exception{
-		
+	public String logout(MemberVO memberVO, HttpSession session) throws Exception{
+		session.invalidate(); //세션을 만료시킨다.
+		return "redirect:/";
 	}
 	
 	

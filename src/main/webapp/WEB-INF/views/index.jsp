@@ -12,7 +12,16 @@
 <body>
 	<h1>index</h1>
 	<a href="/member/join">회원가입</a>
-	<a href="/member/login">로그인</a><br>
+	<c:choose>
+		<c:when test="${not empty member}">	
+			<a href="/member/logout">로그아웃</a>
+		</c:when>
+		<c:otherwise>	
+			<a href="/member/login">로그인</a>
+		</c:otherwise>
+	</c:choose>
+	
+	<br>
 	
 	<img src="/images/style.jpg">
 	<a href="./qna/list?page=1&search=2&perPage=10">에스파는 나야 둘이 될 수 없어~</a>

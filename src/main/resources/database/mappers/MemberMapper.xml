@@ -15,20 +15,22 @@
 	</insert>
 	
 	<select id="getLogin" parameterType="MemberVO" resultMap="MemberAddRole">
-		SELECT * FROM MEMBER M
-		LEFT JOIN MEMBER_ROLE MR
+		SELECT M.*, R.* FROM MEMBER M
+		inner JOIN MEMBER_ROLE MR
 		ON M.id=MR.id
+		inner join ROLES R
+		on MR.num = R.num
 		WHERE M.id=#{id} AND M.password=#{password}
 	</select>
 	<resultMap type="MemberVO" id="MemberAddRole">
 		<id column="id" property="id"/>
-		<result column="password" property="password"/>
 		<result column="email" property="email"/>
 		<result column="name" property="name"/>
 		<result column="enabled" property="enabled"/>
 		<collection property="memberRoleVOs" javaType="List" ofType="MemberRoleVO">
 			<id column="id" property="id"/>
 			<result column="num" property="num"/>
+			<result column="roleName" property="roleName"/>
 		</collection>
 	</resultMap>
 	

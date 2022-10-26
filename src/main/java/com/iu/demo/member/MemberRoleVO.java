@@ -6,4 +6,5 @@ import lombok.Data;
 public class MemberRoleVO {
 	private String id;
 	private Integer num;
+	private String roleName;
 }
