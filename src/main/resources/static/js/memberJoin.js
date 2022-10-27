@@ -129,13 +129,34 @@ $("#joinButton").click(function(){
 // 아이디 중복체크를 해보자
 $("#idChkBtn").click(function(){
     let idVal = $("#id").val()
-    const xttp = new XMLHttpRequest();
-    xttp.open("POST", "/member/idCheck");
-    xttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xttp.send("id="+idVal);
-    xttp.addEventListener("readystatechange", function(){
-        if(this.readyState==4&&this.status==200){
-            console.log(responseText)
+
+    //jQuery
+    //응답으로 온 데이터가 내가 쓴 변수에 담긴다
+    $.get("/member/idCheck?id="+idVal, function(data){
+        console.log("Data:", data)
+
+        if(data=='1'){
+            alert("중복된 아이디 값입니다")
+            $("#id").val("")
+        }else{
+            alert("사용할 수 있는 아이디입니다.")
         }
-    })
+    });
+
+
+
+
+    // const xttp = new XMLHttpRequest();
+    // xttp.open("GET", "/member/idCheck?id="+idVal);
+    // xttp.send();
+    // xttp.addEventListener("readystatechange", function(){
+    //     if(this.readyState==4&&this.status==200){
+    //         if(xttp.responseText=='1'){
+    //             alert("중복된 아이디 값입니다")
+    //             $("#id").val("")
+    //         }else{
+    //             alert("사용할 수 있는 아이디입니다.")
+    //         }
+    //     }
+    // })
 })
