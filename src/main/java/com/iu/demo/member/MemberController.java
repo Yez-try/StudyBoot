@@ -26,11 +26,26 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@PostMapping("test")
+	@ResponseBody
+	public MemberVO setTest(MemberVO member, String [] ar)throws Exception{
+		log.info("=============================");
+		log.info("id : {}", member.getId());
+		log.info("name:{}", member.getName());
+		log.info("ar : {}", ar[0]);
+		log.info("ar : {}", ar[2]);
+		return member;
+	}
+	
 	@GetMapping("idCheck")
 	@ResponseBody
 	public int checkID(MemberVO member) throws Exception{
 		log.info("idCheck:{}", member);
-		return memberService.checkID(member);
+		int result = memberService.checkID(member);
+		if(result==0) {
+			throw new Exception("테스트");
+		}
+		return result;
 	}
 	
 	@GetMapping("join")

@@ -75,6 +75,27 @@
 		</div>
 	</div>
 
+	<!--Post button-->
+	<div>
+		<button id="test" type="button">Post Test</button>
+	</div>
+	<div>
+		<button id="test2" type="button"> Test2</button>
+	</div>
+	<div>
+		<button id="test3" type="button"> Test3</button>
+	</div>
+
+	<div>
+		<select id="s1">
+			<option>1</option>
+			<option>2</option>
+		</select>
+		<button type="button" id="s1Add">Add</button>
+		<button type="button" id="before">Before</button>
+		<button type="button" id="del">Delete</button>
+	</div>
+
 </div>
 
 </body>

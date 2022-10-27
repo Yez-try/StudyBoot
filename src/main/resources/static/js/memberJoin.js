@@ -126,6 +126,35 @@ $("#joinButton").click(function(){
     }
 })
 
+
+
+//Element 추가
+// - 기존의 내용에 추가
+// 1. $("선택자").append("추가할 HTML Code") : 선택 요소 내에 마지막에 추가
+// 2.$("선택자").prepend("추가할 HTML Code") : 선택 요소 내에 맨위에 추가
+let count=3;
+$("#s1Add").click(function(){
+    console.log("add")
+    let add = '<option class="abc" id="abc"'+count+'>'+count+'</option>'
+    $("#s1").append(add);
+    count++;
+})
+
+// 3. $("선택자").after("추가할 HTML Code")   : 선택요소 다음 추가
+// 3. $("선택자").before("추가할 HTML Code")  : 선택요소 이전 추가
+$("#before").click(function(){
+    let add = '<label>클릭하면 늘어나요</label>'
+    $("#s1").before(add);
+})
+
+// 1. $("선택자").remove()   : 선택자 포함, 하위 자식들 까지 모두 삭제
+// 2. $("선택자").empty()    : 선택자 제외, 자식들 삭제
+$("#del").click(function(){
+    $("#s1").remove();
+})
+
+
+
 // 아이디 중복체크를 해보자
 $("#idChkBtn").click(function(){
     let idVal = $("#id").val()
@@ -142,10 +171,6 @@ $("#idChkBtn").click(function(){
             alert("사용할 수 있는 아이디입니다.")
         }
     });
-
-
-
-
     // const xttp = new XMLHttpRequest();
     // xttp.open("GET", "/member/idCheck?id="+idVal);
     // xttp.send();
@@ -160,3 +185,61 @@ $("#idChkBtn").click(function(){
     //     }
     // })
 })
+
+
+
+
+
+$("#test").click(function(){
+    let id="123"
+    let name = "iu"
+
+    $.post("test", {
+        id:id,
+        name:name
+    }, function(result){
+        console.log("Result : ", result) //json형태로 온다
+        console.log("Name : ", result.name)
+    })
+
+})
+
+$("#test2").click(function(){
+    let id="abcd";
+    $.ajax({
+        type:"GET",
+        url:"idCheck",
+        data:{
+            id:id
+        },
+        success:function(data){
+            console.log("Data :", data);
+        },
+        error:function(xhr, status, error){
+            console.log("xhr은 XMLHttpRequest객체   | status는 상태 404 500같은 | error")
+            console.log("xhr : ", xhr)
+            console.log("status :",status)
+            console.log("error: ", error)
+        }
+    })
+})
+
+$("#test3").click(function(){
+    let id="1234"
+    let name="iu"
+    let ar = [1,2,3] //이런값은 어떻게 넘기지????????? traditional값을 true로 준다
+    $.ajax({
+        type:"POST",
+        url:"test",
+        traditional:true, //배열을 전송할 때 사용(파라미터 이름 하나로 여러개를 보내야 할때)
+        data:{
+            id:id,
+            name:name,
+            ar:ar
+        },
+        success:function(result){
+            console.log("result: ", result);
+        }
+    })
+})
+
