@@ -21,5 +21,13 @@
 		<div><a href="/fileDown/qna?fileNum=${file.fileNum}">${file.oriName}</a></div>
 	</c:forEach>
 
+	<a href="/qna/update?num=${qnaVO.num}">쉊ㅇ하지</a>
+	<button id="btnUpdate">수정하기</button>
+
+	<script type="text/javascript">
+		$("#btnUpdate").click(function(){
+			alert("수정")
+		})
+	</script>
 </body>
 </html>
