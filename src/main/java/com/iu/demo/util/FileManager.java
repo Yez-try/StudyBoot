@@ -101,6 +101,16 @@ public class FileManager extends AbstractView {
 	}
 	
 	//파일 삭제
+	public boolean deleteFile(QnaFileVO fileVO, String path)throws Exception{
+		log.info("파일매니저 삭제 실행{}{}",path, fileVO.getFileName());
+		
+		File file = new File(path, fileVO.getFileName());
+		
+		boolean result = file.delete();
+		
+		
+		return result;
+	}
 	
 	
 }

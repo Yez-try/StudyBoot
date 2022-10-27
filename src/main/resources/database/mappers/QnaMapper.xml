@@ -5,6 +5,10 @@
 		  
 <mapper namespace="com.iu.demo.board.qna.QnaMapper">
 
+	<delete id="setFileDelete" parameterType="QnaFileVO">
+		delete FROM QNAFILES WHERE FILENUM = #{fileNum}
+	</delete>
+
 	<select id="getFileDetail" resultType="QnaFileVO" parameterType="QnaFileVO">
 		select * from QNAFILES WHERE FILENUM = #{fileNum}
 	</select>
@@ -37,7 +41,11 @@
 	<resultMap type="QnaVO" id="detailResult">
 		<id column="num" property="num"/>
 		<result column="title" property="title"/>
+		<result column="writer" property="writer"/>
+		<result column="contents" property="contents"/>
 		<result column="regDate" property="regDate"/>
+		<result column="hit" property="hit"/>
+		<result column="ref" property="ref"/>
 		<collection property="fileVOs" ofType="QnaFileVO" javaType="List">
 			<id column="FILENUM" property="fileNum"/>
 			<result column="FILENAME" property="fileName"/>

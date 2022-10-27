@@ -27,6 +27,24 @@ public class QnaService {
 	private String path;
 	private String folder = "qna/";
 	
+	
+	public int setFileDelete(QnaFileVO fileVO) throws Exception{
+		//우선 파일정보를 가져옴
+		fileVO = qnaMapper.getFileDetail(fileVO);
+		//db정보 먼저 삭제
+		int result = qnaMapper.setFileDelete(fileVO);
+		//db삭제 완료 되면 파일 삭제
+		if(result==1) {
+			boolean result2 = fileManager.deleteFile(fileVO, path+folder);
+			if(result2==false) {
+				log.info("파일삭제 안됨");
+			}
+		}else {
+			throw new Error("db삭제 안됨");
+		}
+		return result; 
+	}
+	
 	public QnaFileVO getFileDetail(QnaFileVO fileVO) throws Exception{
 		return qnaMapper.getFileDetail(fileVO);
 	}

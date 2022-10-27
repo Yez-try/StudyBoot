@@ -17,25 +17,39 @@
 			<div>
 				<label for="title">제목</label>
 				<input type="text" name="title" id="title" placeholder="title을 입력하세요" value="${qnaVO.title}">
-				<label for="writer">작성자${qnaVO.writer}</label>
+				<label for="writer">작성자</label>
 				<input type="text" name="writer" id="writer" placeholder="작성자 입력하세요" value="${qnaVO.writer}">
-				<textarea id="contents" name="contents">${qnaVO.contents}</textarea>
+				<textarea id="contents" name="contents"></textarea>
 			</div>	
+			
+			<c:forEach items="${qnaVO.fileVOs}" var="fls">
+				<div >
+					<img alt="" src="/file/qna/${fls.fileName}"style="height:300px;">
+					<button type="button" class="fileDel" data-fNum="${fls.fileNum}">삭제하기</button>
+				</div>
+			</c:forEach>
+            
 			<div id="divFiles">
 			</div>	
 			<div>
-				<button type="button" id="fileAddBtn">FileAdd</button>
+				<button type="button" id="fileAddBtn" >FileAdd</button>
 			</div>
 			
 			<button type="submit">작성하기</button>
 		</form>
 	</div>
 	<script>
-      $('#contents').summernote({
-        placeholder: 'Hello Bootstrap 4',
-        tabsize: 2,
-        height: 100
-      });
+      $('#contents').summernote('code','${qnaVO.contents}');
+      
+      $('.fileDel').click(function(){
+    	  alert("삭제하기")
+    	  $.post("/qna/filedelete",
+    			  {fileNum:$(this).attr("data-fNum")
+    		  }, function(result){
+    				  console.log(result)
+    			  })
+    	  
+      })
     </script>
 </body>
 </html>
