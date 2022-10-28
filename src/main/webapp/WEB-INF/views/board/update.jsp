@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <c:import url="../temp/boot.jsp"></c:import>
 <c:import url="../temp/summer.jsp"></c:import>
+<script defer src="/js/boardWrite.js"></script>
 </head>
 <body>
 	<h1>Board Update Page</h1>
@@ -23,13 +24,13 @@
 			</div>	
 			
 			<c:forEach items="${qnaVO.fileVOs}" var="fls">
-				<div >
+				<div id="showfiles">
 					<img alt="" src="/file/qna/${fls.fileName}"style="height:300px;">
 					<button type="button" class="fileDel" data-fNum="${fls.fileNum}">삭제하기</button>
 				</div>
 			</c:forEach>
             
-			<div id="divFiles">
+			<div id="divFiles" data-file-size="${qnaVO.fileVOs.size()}">
 			</div>	
 			<div>
 				<button type="button" id="fileAddBtn" >FileAdd</button>
@@ -41,6 +42,7 @@
 	<script>
       $('#contents').summernote('code','${qnaVO.contents}');
       
+      
       $('.fileDel').click(function(){
     	  alert("삭제하기")
     	  $.post("/qna/filedelete",
@@ -50,6 +52,11 @@
     			  })
     	  
       })
+      
+    </script>
+    <script>
+
+    setCount(${qnaVO.fileVOs.size()});
     </script>
 </body>
 </html>

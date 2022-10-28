@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import com.iu.demo.interceptors.StudyInterceptor;
 import com.iu.demo.interceptors.TestInterceptor;
@@ -44,6 +45,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
 	private TestInterceptor testInterceptor;
 	@Autowired
 	private StudyInterceptor studyInterceptor;
+	@Autowired //MessageConfig에서 Bean으로 만든 객체
+	private LocaleChangeInterceptor localeChangeInterceptor;
 	
 	@Override //상속받은 메서드를 재정의 : 오버로딩-같은이름의 메서드를 여러개 만드는것
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -62,6 +65,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
 		
 		// 같은 url(qna/write)의 testInterceptor와 studyInterceptor 중 무엇을 먼저 실행할까?
 		// Interceptor 순서 : config class 에 등록된 순서대로 적용한다.
+		
+		
+		registry.addInterceptor(localeChangeInterceptor)
+				.addPathPatterns("/**");
 	
 	}
 }

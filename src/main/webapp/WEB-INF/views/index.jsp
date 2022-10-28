@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<!-- 다국어 설정 taglib jsp 에서 spring message를 사용할 수 있도록 함 -->
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +15,16 @@
 <body>
 	
 	<h1>index</h1>
+	<h1><spring:message code="hi" var="h"></spring:message></h1><!-- hi라는 코드의 message를 m 에 저장한다. 그리고 출력 안함-->
+	<h1><spring:message code="test" text="code가 없을 때 기본 메세지"></spring:message></h1>
+	<h2>${h}</h2>
+	
 	<a href="/member/join">회원가입</a>
 	<c:choose>
 		<c:when test="${not empty member}">	
+			<spring:message code="welcome" arguments="${member.name}"></spring:message>
+			<!-- 변수가 여러개 들어가는 경우 separator를 사용해 변수를 구분한다	 -->
+			<spring:message code="welcome2" arguments="${member.id},${member.name}" argumentSeparator=","></spring:message>
 			<a href="/member/logout">로그아웃</a>
 		</c:when>
 		<c:otherwise>	

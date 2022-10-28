@@ -1,9 +1,24 @@
 console.log("boardWrite.js")
 
 
+
+
 let count=0
+
+	console.log($(".fileDel"))
+    if($(".fileDel")){
+    	console.log("yes")
+    }
+
+console.log(count)
+function setCount(num){
+	count = num;
+	console.log("setcount",num,count)
+}
+
 //파일추가 생성하기
 $("#fileAddBtn").click(function(){
+	console.log("Add",count)
     if(count<5){
         let elmtFile = '<div id="file"'+count+'>'+
         '<label for="files">파일</label><input type="file" id="files" name="files"><button type="button" class="delFileDiv">버튼삭제</button>'

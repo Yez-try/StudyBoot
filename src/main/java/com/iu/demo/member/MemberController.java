@@ -7,14 +7,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +38,31 @@ public class MemberController {
 		return memberService.checkID(member);
 	}
 	
-	@GetMapping("join")
-	public void setJoin() throws Exception{
+	@GetMapping("join") //model에 빈 MemberVO객체 attribute로 보내준다.
+	public void setJoin(@ModelAttribute MemberVO memberVO) throws Exception{
+		
 		log.info("joinController");
 	}
 	
-	@PostMapping("join")
-	public String setJoin(MemberVO memberVO, RedirectAttributes attributes) throws Exception{
+	@PostMapping("join") //검증이 필요한 member앞에 valid를 선언 : BindingResult는 바로 다음에 선언하지 않으면 연결문제ㅏ 생긴다
+	public ModelAndView setJoin(@Valid MemberVO memberVO, BindingResult bindingResult, RedirectAttributes attributes, ModelAndView mv) throws Exception{
 		log.info("membervo {}", memberVO);
+		//도대체 뭘가지고 검증하는거야???
+		
+		
+		//검증에 실패하면 회원가입하는 jsp로 forward
+		if(bindingResult.hasErrors()) {
+			log.info("=============검증 에러 발생 ============");
+			mv.setViewName("member/join");
+			return mv;
+		}
+		
 		int result = memberService.setJoin(memberVO);
 		log.info("join result: {}", result);
 		
 		attributes.addAttribute("result", result);
-		return "redirect:/";
+		mv.setViewName("redirect:/");
+		return mv;
 	}
 	
 	@GetMapping("login")
