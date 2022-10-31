@@ -51,7 +51,16 @@ public class MemberController {
 		
 		
 		//검증에 실패하면 회원가입하는 jsp로 forward
-		if(bindingResult.hasErrors()) {
+//		if(bindingResult.hasErrors()) { 
+//			log.info("=============검증 에러 발생 ============");
+//			mv.setViewName("member/join");
+//			return mv;
+//		}
+		
+		// service에서 check=bindingResult.hasErrors를 해주어, 
+		// annotation검증과 , password 일치 검증을 둘다 서비스에서 해준다.
+		boolean check = memberService.getMemberError(memberVO, bindingResult);
+		if(check) {
 			log.info("=============검증 에러 발생 ============");
 			mv.setViewName("member/join");
 			return mv;

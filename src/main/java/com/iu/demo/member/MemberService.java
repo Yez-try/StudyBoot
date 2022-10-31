@@ -3,6 +3,7 @@ package com.iu.demo.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +13,25 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
+	
+	//사용자 정의 검증 메서드
+	public boolean getMemberError(MemberVO memberVO, BindingResult bindingResult)throws Exception{
+		boolean check=false;
+		// check=false : 검증성공(error 없음)
+		// check=true : 검증실패(error 있음)
+		
+		//1. annotation검증 : true면 에러 있음
+		check = bindingResult.hasErrors();
+		
+		//2. password가 일치하는지 검증
+		if(!memberVO.getPassword().equals(memberVO.getPwCheck())){
+			check=true;
+			//에러메세지 rejectValue("멤버변수명(path)", "properties의 key")
+			bindingResult.rejectValue("pwCheck", "member.password.notEqual" );
+		}
+		
+		return check;
+	}
 	
 	public int checkID(MemberVO memberVO) throws Exception{
 		return memberDAO.checkID(memberVO);
