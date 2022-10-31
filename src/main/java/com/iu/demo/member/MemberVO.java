@@ -21,6 +21,7 @@ public class MemberVO {
 	private String password;
 	@Size(max=10, min=4, message = "비밀번호는 같아야해")
 	private String pwCheck;
+	@NotBlank
 	private String name;
 	@Email
 	private String email;

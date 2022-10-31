@@ -51,7 +51,9 @@
 			</div>
 			<div class="col-5">
 				<form:input path="name" id="name" cssClass="valid" />
-				<form:errors path="name"></form:errors>
+				<div id="inputNameResult">
+					<form:errors path="name"></form:errors>
+				</div>
 			</div>
 		</div>
 		<div class="row justify-content-center mt-2">

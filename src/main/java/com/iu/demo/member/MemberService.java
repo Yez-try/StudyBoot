@@ -30,6 +30,13 @@ public class MemberService {
 			bindingResult.rejectValue("pwCheck", "member.password.notEqual" );
 		}
 		
+		//3. 아이디가 일치하는지 검증
+		if(memberDAO.checkID(memberVO)>0) {
+			//입력한 아이디가 0개 초과인경우
+			check=true;
+			bindingResult.rejectValue("id", "member.id.dupl");
+		}
+		
 		return check;
 	}
 	

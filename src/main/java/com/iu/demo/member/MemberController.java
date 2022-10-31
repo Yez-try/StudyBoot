@@ -2,6 +2,7 @@ package com.iu.demo.member;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +64,16 @@ public class MemberController {
 		boolean check = memberService.getMemberError(memberVO, bindingResult);
 		if(check) {
 			log.info("=============검증 에러 발생 ============");
+			List<FieldError> errors = bindingResult.getFieldErrors();
+			
+			for(FieldError fieldError:errors) {
+				log.info("FieldError =>{}", fieldError);
+				log.info("Field => {}", fieldError.getField());
+				log.info("Message => {}", fieldError.getRejectedValue());
+				log.info("Defalut => {}", fieldError.getDefaultMessage());
+				log.info("code => {}", fieldError.getCode());
+			}
+			
 			mv.setViewName("member/join");
 			return mv;
 		}
