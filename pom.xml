@@ -18,15 +18,16 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-	<!--
+		<!--Social login-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
+		<!--Spring security-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency> 	-->	
+		</dependency> 
 		
 		<!-- SQL log를 위한 설정-->
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->

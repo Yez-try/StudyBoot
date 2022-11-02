@@ -45,6 +45,9 @@ public class FileManager extends AbstractView {
 		
 		File file = new File(base+path+"/", fileVO.getFileName());
 		
+		// HDD에서 파일을 읽고(FileInputStram으로 읽어옴)
+		FileInputStream fi = new FileInputStream(file);
+
 		//한글 처리 
 		response.setCharacterEncoding("UTF-8");
 		
@@ -58,8 +61,6 @@ public class FileManager extends AbstractView {
 		response.setHeader("Content-Disposition", "attachment;filename=\""+oriName+"\"");
 		response.setHeader("Content-Transfer-Encoding", "binary");//전송할 때의 파일 형식을 의미 (text가 아닌 이진 파일이라고 알려줌)
 		
-		// HDD에서 파일을 읽고(FileInputStram으로 읽어옴)
-		FileInputStream fi = new FileInputStream(file);
 		// Client로 전송준비
 		OutputStream os = response.getOutputStream(); //클라이언트로 연결된 스트림을 가져온다.
 		

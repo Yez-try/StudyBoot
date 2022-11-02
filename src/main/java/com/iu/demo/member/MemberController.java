@@ -91,23 +91,26 @@ public class MemberController {
 		log.info("로그인 컨트롤러");
 	}
 	
-	
-	@PostMapping("login")
-	public String getLogin(MemberVO memberVO, HttpSession session, HttpServletResponse response) throws Exception{
-		log.info("MemberVO {}", memberVO);
-		memberVO= memberService.getLogin(memberVO);
-		
-		//tcp 신뢰성 있는 연결, 응답이 무조건 오는 연결방식
-		// session을 사용하면 요청이 발생하면 요청에 대해 request객체를 만들어 담는다.
-		// 쿠키에 SessionID를 담아서 보내주는데...
-		session.setAttribute("member", memberVO);
-		
-		Cookie cookie = new Cookie("login", memberVO.getId());
-		cookie.setPath("/");
-		response.addCookie(cookie);
-		
-		return "redirect:/";
-	}
+	// 로그인 처리를 spring security에서 하도록 변경
+	// 중간에 가로채서 바로 서비스로 넘어갈 겁니다.
+	// spring security가 요청하는 파라미터는 id는 "username" pw는 "password"
+	// 애초에 memberVO를 만들때 username password로 하면 편리하다
+//	@PostMapping("login")
+//	public String getLogin(MemberVO memberVO, HttpSession session, HttpServletResponse response) throws Exception{
+//		log.info("MemberVO {}", memberVO);
+//		memberVO= memberService.getLogin(memberVO);
+//		
+//		//tcp 신뢰성 있는 연결, 응답이 무조건 오는 연결방식
+//		// session을 사용하면 요청이 발생하면 요청에 대해 request객체를 만들어 담는다.
+//		// 쿠키에 SessionID를 담아서 보내주는데...
+//		session.setAttribute("member", memberVO);
+//		
+//		Cookie cookie = new Cookie("login", memberVO.getId());
+//		cookie.setPath("/");
+//		response.addCookie(cookie);
+//		
+//		return "redirect:/";
+//	}
 	
 	@GetMapping("logout")
 	public String logout(MemberVO memberVO, HttpSession session) throws Exception{
