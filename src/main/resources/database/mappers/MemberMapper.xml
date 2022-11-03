@@ -35,7 +35,6 @@
 		<result column="name" property="name"/>
 		<result column="enabled" property="enabled"/>
 		<collection property="memberRoleVOs" javaType="List" ofType="MemberRoleVO">
-			<id column="id" property="id"/>
 			<result column="num" property="num"/>
 			<result column="roleName" property="roleName"/>
 		</collection>

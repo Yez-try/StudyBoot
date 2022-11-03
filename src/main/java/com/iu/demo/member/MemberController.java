@@ -33,6 +33,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("myPage")
+	public String getMyPage() throws Exception{
+		return "member/myPage";
+	}
+	
 	@GetMapping("idCheck")
 	@ResponseBody
 	public int checkID(MemberVO member) throws Exception{
@@ -114,6 +119,7 @@ public class MemberController {
 	
 	@GetMapping("logout")
 	public String logout(MemberVO memberVO, HttpSession session) throws Exception{
+		log.info("=======로그아웃========");
 		session.invalidate(); //세션을 만료시킨다.
 		return "redirect:/";
 	}

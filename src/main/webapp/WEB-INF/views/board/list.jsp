@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,7 +13,9 @@
 	<c:import url="../temp/boot.jsp"></c:import>
 	<h1>List Page</h1>
 	<hr>
+	<sec:authorize access="!isAuthenticated()">
 	<a class="btn btn-danger" href="./write" >Write</a> 
+	</sec:authorize>
 	<table border=1 class="table table-hover">
 		<thead>
 			<tr>

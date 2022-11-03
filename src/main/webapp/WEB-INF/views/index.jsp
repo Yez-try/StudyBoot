@@ -24,6 +24,7 @@
 	
 	<!-- 로그인 성공 -->
 	<!-- is는 보통 truefalse를 리턴 isAuthenticated()는 인증이 되었습니까? -->
+	<sec:authentication property="Principal" var="member"/>
 	<sec:authorize access="isAuthenticated()">
 		<spring:message code="welcome" arguments="${member.name}"></spring:message>
 		<spring:message code="welcome2" arguments="${member.id},${member.name}" argumentSeparator=","></spring:message>
@@ -33,6 +34,21 @@
 	<sec:authorize access="!isAuthenticated()">
 		<a href="/member/join">회원가입</a>
 		<a href="/member/login">로그인</a>
+	</sec:authorize>
+	
+	<sec:authorize access="hasRole('ADMIN')">
+		<a href="/admin">어드민</a>
+		<a href="/member/myPage">마이페이지</a>
+		<a href="/member/logout">로그아웃</a>
+	</sec:authorize>
+	<hr>
+	<!-- url경로가 Security Config설정에서 특정권한을 가진 URL로 등록되어 있는 경우 -->
+	<sec:authorize url="/admin" var="ad">
+		<a href="/admin">config에 등록되어있넹</a>
+	</sec:authorize>
+	
+	<sec:authorize access="hasAnyRole('ADMIN','MANAGER')">
+		<a href="/manager">매니저 GO</a>
 	</sec:authorize>
 	<%-- 앞으로 c 태그 대신 sec 태그를 사용할 것이다.	
 	<c:choose>

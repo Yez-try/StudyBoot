@@ -61,7 +61,11 @@ public class SecurityConfig{
 					.permitAll();
 		//이렇게 끊고가도 됨
 		httpSecurity.logout()
-					.permitAll(); //만약 anyRequest().permitAll()하면 나머지는 모두 허용
+						.logoutUrl("/out")
+						.logoutSuccessUrl("/")	
+						.invalidateHttpSession(true)
+						.deleteCookies("JSESSIONID")
+						.permitAll(); //만약 anyRequest().permitAll()하면 나머지는 모두 허용
 		
 		return httpSecurity.build();
 	}
