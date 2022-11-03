@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <!-- 다국어 설정 taglib jsp 에서 spring message를 사용할 수 있도록 함 -->
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!-- SPRING_SECURITY_CONTEXT를 쉽게 사용할 수 있도록 도와주는 taglib -->
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,20 @@
 	<h1><spring:message code="test" text="code가 없을 때 기본 메세지"></spring:message></h1>
 	<h2>${h}</h2>
 	
-	<a href="/member/join">회원가입</a>
+	
+	<!-- 로그인 성공 -->
+	<!-- is는 보통 truefalse를 리턴 isAuthenticated()는 인증이 되었습니까? -->
+	<sec:authorize access="isAuthenticated()">
+		<spring:message code="welcome" arguments="${member.name}"></spring:message>
+		<spring:message code="welcome2" arguments="${member.id},${member.name}" argumentSeparator=","></spring:message>
+			
+	</sec:authorize>
+	<!-- 로그인 전 -->
+	<sec:authorize access="!isAuthenticated()">
+		<a href="/member/join">회원가입</a>
+		<a href="/member/login">로그인</a>
+	</sec:authorize>
+	<%-- 앞으로 c 태그 대신 sec 태그를 사용할 것이다.	
 	<c:choose>
 		<c:when test="${not empty member}">	
 			<spring:message code="welcome" arguments="${member.name}"></spring:message>
@@ -30,7 +45,8 @@
 		<c:otherwise>	
 			<a href="/member/login">로그인</a>
 		</c:otherwise>
-	</c:choose>
+	</c:choose> --%>
+
 	
 	<br>
 	
