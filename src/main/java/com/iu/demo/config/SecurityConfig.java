@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -51,7 +53,7 @@ public class SecurityConfig{
 				//로그인 폼 인증 설정
 				.formLogin()
 					.loginPage("/member/login") //내장된 로그인 폼을 사용하지 않고 개발자가 만든 폼요청 URL
-//					.loginProcessingUrl(null) //로그인을 진행 요청할 form tag의 action의 주소를 지정
+//					.loginProcessingUrl("/member/add") //로그인을 진행 요청할 form tag의 action의 주소를 지정
 					.usernameParameter("id") //개발자가 username이 아닌 다른 이름으로 parameter를 사용할 때 이렇게 사용한다.
 //					.passwordParameter("pw") 패스워드는 password로 동일하므로 나는 생략
 					.defaultSuccessUrl("/")  //인증에 성공할 경우 요청할 URL
@@ -62,6 +64,12 @@ public class SecurityConfig{
 					.permitAll(); //만약 anyRequest().permitAll()하면 나머지는 모두 허용
 		
 		return httpSecurity.build();
+	}
+	
+	//평문(Clear Text)를 암호화 시켜주는 객체 생성
+	@Bean
+	public PasswordEncoder getEncoder() {
+		return new BCryptPasswordEncoder(); //이클래스의 객체가 평문을 암호화 해
 	}
 
 }

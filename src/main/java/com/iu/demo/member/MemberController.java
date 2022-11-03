@@ -92,7 +92,7 @@ public class MemberController {
 	}
 	
 	// 로그인 처리를 spring security에서 하도록 변경
-	// 중간에 가로채서 바로 서비스로 넘어갈 겁니다.
+	// 중간에 가로채서 바로 서비스로 넘어갈 겁니다.(인터셉터처럼)
 	// spring security가 요청하는 파라미터는 id는 "username" pw는 "password"
 	// 애초에 memberVO를 만들때 username password로 하면 편리하다
 //	@PostMapping("login")
