@@ -15,13 +15,20 @@
 			<h3>로그인</h3>
 		</div>
 	</div>
+		<div class="row my-5">
+		<div class="col text-center text-danger">
+			
+			<h3>${param.message}</h3>
+			${msg}
+		</div>
+	</div>
 	<form id="joinForm" action="/member/login" method="post">
 		<div class="row justify-content-center mt-2">
 			<div class="col-2">
 				<label for="id">아이디</label>
 			</div>
 			<div class="col-5">
-				<input name="id" id="id" type="text">
+				<input name="id" id="id" type="text" value="${cookie.userId.value}">
 			</div>
 		</div>
 		<div class="row justify-content-center mt-2">
@@ -30,6 +37,14 @@
 			</div>
 			<div class="col-5">
 				<input name="password" id="password" type="password">
+			</div>
+		</div>
+				<div class="row justify-content-center mt-2">
+			<div class="col-4">
+				<label for="remember">아이디 기억하기</label>
+			</div>
+			<div class="col-3">
+				<input name="remember" id="remember" class="form-check-input" type="checkbox">
 			</div>
 		</div>
 		<div class="row justify-content-center mt-2">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -92,8 +93,16 @@ public class MemberController {
 	}
 	
 	@GetMapping("login")
-	public void getLogin() throws Exception{
+	public ModelAndView getLogin(@RequestParam(defaultValue = "false" /*기본값은 false야*/ /*안넘어오면 안담아도 돼 required = false*/)boolean error,
+			ModelAndView mv) throws Exception{
 		log.info("로그인 컨트롤러");
+		
+		log.info("error {}",error);
+		if(error) {
+			mv.addObject("msg", "로그인 실패");
+			
+		}
+		return mv;
 	}
 	
 	// 로그인 처리를 spring security에서 하도록 변경

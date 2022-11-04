@@ -19,7 +19,7 @@ public class MemberSecurityService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("========로그인 시도 중=========");
-		MemberVO memberVO = dao.getLogin(username);
+		MemberVO memberVO = dao.getLogin(username); 
 		log.info("memberVO {}", memberVO);
 		
 		

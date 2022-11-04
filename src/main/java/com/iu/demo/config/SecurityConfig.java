@@ -1,5 +1,6 @@
 package com.iu.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,9 +10,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.iu.demo.member.security.LoginFail;
+import com.iu.demo.member.security.LoginSuccess;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
+	
+	@Autowired
+	private LoginSuccess loginSuccess;
+	@Autowired
+	private LoginFail loginFail;
 	
 	@Bean
 	//public을 선언하면 defalut로 바꾸라는 메세지가 출력됨
@@ -56,9 +65,11 @@ public class SecurityConfig{
 //					.loginProcessingUrl("/member/add") //로그인을 진행 요청할 form tag의 action의 주소를 지정
 					.usernameParameter("id") //개발자가 username이 아닌 다른 이름으로 parameter를 사용할 때 이렇게 사용한다.
 //					.passwordParameter("pw") 패스워드는 password로 동일하므로 나는 생략
-					.defaultSuccessUrl("/")  //인증에 성공할 경우 요청할 URL
-					.failureUrl("/member/login") //인증 실패할 경우 요청할 URL
-					.permitAll();
+//					.defaultSuccessUrl("/")  //인증에 성공할 경우 요청할 URL (successHandler가 있으면 거기서 실행해도 된다)
+//					.failureUrl("/member/login?error=true&message=LoginFail") //인증 실패할 경우 요청할 URL (기본 값은 로그인 페이지?error)
+					.failureHandler(loginFail)
+					.permitAll()
+					.successHandler(loginSuccess); //AuthenticationSuccessHandler를 impl받은 클래스를 생성해 넣어준다.
 		//이렇게 끊고가도 됨
 		httpSecurity.logout()
 						.logoutUrl("/out")
