@@ -56,6 +56,10 @@
 
 </div>
 
+<script type="text/javascript">
+	//주소창에 파라미터 없애기
+	history.replaceState({}, null, location.pathname)
+</script>
 
 </body>
 </html>
