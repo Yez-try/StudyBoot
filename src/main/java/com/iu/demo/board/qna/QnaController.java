@@ -27,6 +27,13 @@ public class QnaController {
 	@Autowired
 	private QnaService qnaService;
 	
+	@GetMapping("hack")
+	@ResponseBody
+	public int hack(QnaVO qnaVO) throws Exception{
+		qnaService.write(qnaVO);
+		return 1;
+	}
+	
 	@GetMapping("list")
 	public ModelAndView getList(Pager pager, ModelAndView mv) throws Exception{
 		List<QnaVO> lst = qnaService.getList(pager);
@@ -44,7 +51,7 @@ public class QnaController {
 	
 	@PostMapping("write")
 	public String write(QnaVO qna, RedirectAttributes redirectAttributes, HttpSession session) throws Exception{
-		int result = qnaService.write(qna, session);
+		int result = qnaService.write(qna);
 		log.info("result : {}", result);
 		
 

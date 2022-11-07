@@ -60,7 +60,7 @@ public class QnaService {
 		return lst;
 	}
 	
-	public int write(QnaVO qnaVO, HttpSession session) throws Exception{
+	public int write(QnaVO qnaVO) throws Exception{
 		
 		int result = qnaMapper.addQna(qnaVO);
 //		String realPath = session.getServletContext().getRealPath("/static/upload/qna2");
@@ -74,6 +74,7 @@ public class QnaService {
 			boolean chk = file.mkdirs();
 			log.info("chk : {}",chk);
 		}
+		if(qnaVO.getFiles()!=null) {
 		for(MultipartFile f:qnaVO.getFiles()) {
 			if(!f.isEmpty()) {
 				String fileName = fileManager.saveFile(f, path+folder); //0번째는 무조건 비어있음...?
@@ -85,7 +86,7 @@ public class QnaService {
 				
 				qnaMapper.setFileAdd(fileVO);
 			}
-		}
+		}}
 		
 	
 		return result;

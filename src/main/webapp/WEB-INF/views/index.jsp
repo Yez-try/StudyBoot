@@ -39,7 +39,10 @@
 	<sec:authorize access="hasRole('ADMIN')">
 		<a href="/admin">어드민</a>
 		<a href="/member/myPage">마이페이지</a>
-		<a href="/member/logout">로그아웃</a>
+		<a href="#" id="logout">Logout</a>
+		<form action="/out" method="post" id="outForm">
+			<sec:csrfInput/>		
+		</form>
 	</sec:authorize>
 	<hr>
 	<!-- url경로가 Security Config설정에서 특정권한을 가진 URL로 등록되어 있는 경우 -->
@@ -89,6 +92,10 @@
 				alert('회원가입 실패');
 			}
 		}
+		
+		$("#logout").click(function() {
+			$("#outForm").submit()
+		})
 	</script>
 
 </body>

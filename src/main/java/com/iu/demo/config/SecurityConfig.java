@@ -49,6 +49,10 @@ public class SecurityConfig{
 		
 		//httpsecurity에 있는 cors랑 and랑......은 사용하지 맙시다 (일단아직 배우기 전이니까)
 		httpSecurity
+					//csrf활성화는 아래 csrf()와 disable()을 삭제한다
+					//활성화 되면 요청 전송시 CSRF토큰을 적용시켜야 한다.
+					//로그아웃시 문제 발생 : 이유) logout경로를 get으로 보냈지만, security내부적으로 실제론 POST로 처리함
+						//로그아웃 할때, form태그로 제출하게하여 토큰도 함께 보내주도록한다.
 //					.csrf()
 //					.disable()
 					.cors()
@@ -60,7 +64,7 @@ public class SecurityConfig{
 					.antMatchers("/login").permitAll()
 					.antMatchers("/logout").permitAll()
 					.antMatchers("/qna/list","/qna/detail").permitAll()
-					.antMatchers("/qna/**").hasRole("MEMBER") //순서 중요!
+//					.antMatchers("/qna/**").hasRole("MEMBER") //순서 중요!
 					//루트밑에 admin은 admin롤을 가진 사람만 통과
 					.antMatchers("/admin").hasRole("ADMIN") //DB의 권한이름과 동일해야함 ROLE_ADMIN이라서 ADMIN으로 맞춰야함 (ROLE_ 빼고)
 					.antMatchers("/manager").hasRole("MANAGER")
@@ -107,7 +111,7 @@ public class SecurityConfig{
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		//아래 출처는 허락하겠다.
-		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500"));//"*" 모든 URL을 다 허용하겠다. 라는 뜻
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500","*"));//"*" 모든 URL을 다 허용하겠다. 라는 뜻
 		//아래 메서드 방식은 허락하겠다.
 		configuration.setAllowedMethods(Arrays.asList("GET","POST")); 
 		
