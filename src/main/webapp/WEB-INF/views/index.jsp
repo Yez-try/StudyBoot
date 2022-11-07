@@ -34,6 +34,7 @@
 	<sec:authorize access="!isAuthenticated()">
 		<a href="/member/join">회원가입</a>
 		<a href="/member/login">로그인</a>
+		<a href="/oauth2/authorization/kakao">카카오로그인</a>
 	</sec:authorize>
 	
 	<sec:authorize access="hasRole('ADMIN')">

@@ -97,6 +97,11 @@ public class SecurityConfig{
 						.key("rememberMe") //key는 인증받은 사용자의 정보로 Token 생성시 필요, 필수
 						.userDetailsService(memberSecurityService)  //인증 절차를 실행할 UserDetailservice, 필수
 						.authenticationSuccessHandler(loginSuccess) //로그인 성공했을때 어디로 갈거니???
+						.and()
+					//소셜로그인 설정을 실행하겠다.
+					.oauth2Login()
+						.userInfoEndpoint()
+						.userService(memberSecurityService) //loadUser 메서드가 필요함.
 						;
 		return httpSecurity.build();
 	}
