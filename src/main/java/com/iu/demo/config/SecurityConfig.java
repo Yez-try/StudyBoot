@@ -1,5 +1,7 @@
 package com.iu.demo.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.iu.demo.member.MemberSecurityService;
 import com.iu.demo.member.security.LoginFail;
 import com.iu.demo.member.security.LoginSuccess;
 
@@ -21,6 +27,8 @@ public class SecurityConfig{
 	private LoginSuccess loginSuccess;
 	@Autowired
 	private LoginFail loginFail;
+	@Autowired
+	private MemberSecurityService memberSecurityService;
 	
 	@Bean
 	//public을 선언하면 defalut로 바꾸라는 메세지가 출력됨
@@ -41,10 +49,11 @@ public class SecurityConfig{
 		
 		//httpsecurity에 있는 cors랑 and랑......은 사용하지 맙시다 (일단아직 배우기 전이니까)
 		httpSecurity
+//					.csrf()
+//					.disable()
 					.cors()
+					.configurationSource(this.corsConfigurationSource())
 					.and()
-					.csrf()
-					.disable()
 				.authorizeRequests()
 					//인덱스페이지는 누구나한테 다 허용하겠다.
 					.antMatchers("/").permitAll()
@@ -76,8 +85,15 @@ public class SecurityConfig{
 						.logoutSuccessUrl("/")	
 						.invalidateHttpSession(true)
 						.deleteCookies("JSESSIONID")
-						.permitAll(); //만약 anyRequest().permitAll()하면 나머지는 모두 허용
-		
+						.permitAll() //만약 anyRequest().permitAll()하면 나머지는 모두 허용
+						.and()
+					.rememberMe()//RememberMe 설정
+						.rememberMeParameter("rememberMe") //Defalut는 remember-me
+						.tokenValiditySeconds(300) //로그인 유지시간 (초단위)
+						.key("rememberMe") //key는 인증받은 사용자의 정보로 Token 생성시 필요, 필수
+						.userDetailsService(memberSecurityService)  //인증 절차를 실행할 UserDetailservice, 필수
+						.authenticationSuccessHandler(loginSuccess) //로그인 성공했을때 어디로 갈거니???
+						;
 		return httpSecurity.build();
 	}
 	
@@ -85,6 +101,21 @@ public class SecurityConfig{
 	@Bean
 	public PasswordEncoder getEncoder() {
 		return new BCryptPasswordEncoder(); //이클래스의 객체가 평문을 암호화 해
+	}
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		//아래 출처는 허락하겠다.
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500"));//"*" 모든 URL을 다 허용하겠다. 라는 뜻
+		//아래 메서드 방식은 허락하겠다.
+		configuration.setAllowedMethods(Arrays.asList("GET","POST")); 
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		//우리 서버의 어떤 url에 적용시킬거냐(뭘 허락해줄거냥
+		source.registerCorsConfiguration("/**", configuration);
+		
+		return source;
 	}
 
 }

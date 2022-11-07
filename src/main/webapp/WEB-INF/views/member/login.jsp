@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,8 @@
 		</div>
 	</div>
 	<form id="joinForm" action="/member/login" method="post">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+		
 		<div class="row justify-content-center mt-2">
 			<div class="col-2">
 				<label for="id">아이디</label>
@@ -36,15 +39,23 @@
 				<label for="password">비밀번호</label>
 			</div>
 			<div class="col-5">
-				<input name="password" id="password" type="password">
+				<input name="password" id="pw" type="password">
 			</div>
 		</div>
-				<div class="row justify-content-center mt-2">
+		<div class="row justify-content-center mt-2">
 			<div class="col-4">
 				<label for="remember">아이디 기억하기</label>
 			</div>
 			<div class="col-3">
 				<input name="remember" id="remember" class="form-check-input" type="checkbox">
+			</div>
+		</div>
+		<div class="row justify-content-center mt-2">
+			<div class="col-4">
+				<label for="rememberMe">자동 로그인</label>
+			</div>
+			<div class="col-3">
+				<input name="rememberMe" id="rememberMe" class="form-check-input" type="checkbox">
 			</div>
 		</div>
 		<div class="row justify-content-center mt-2">

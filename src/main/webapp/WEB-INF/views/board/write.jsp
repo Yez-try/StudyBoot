@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,7 @@
 
 	<div>
 		<form action="./write" method="post" enctype="multipart/form-data">
+			<sec:csrfInput/>
 			<div>
 				<label for="title">제목</label>
 				<input type="text" name="title" id="title" placeholder="title을 입력하세요">

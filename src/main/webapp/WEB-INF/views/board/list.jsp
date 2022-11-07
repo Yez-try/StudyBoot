@@ -13,9 +13,9 @@
 	<c:import url="../temp/boot.jsp"></c:import>
 	<h1>List Page</h1>
 	<hr>
-	<sec:authorize access="!isAuthenticated()">
+
 	<a class="btn btn-danger" href="./write" >Write</a> 
-	</sec:authorize>
+
 	<table border=1 class="table table-hover">
 		<thead>
 			<tr>
