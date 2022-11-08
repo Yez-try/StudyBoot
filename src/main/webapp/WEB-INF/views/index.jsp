@@ -28,6 +28,9 @@
 	<sec:authorize access="isAuthenticated()">
 		<spring:message code="welcome" arguments="${member.name}"></spring:message>
 		<spring:message code="welcome2" arguments="${member.id},${member.name}" argumentSeparator=","></spring:message>
+		<!-- 카카오 로그아웃을 로그아웃successHandler에서 실행하도록 바꿔보자 
+		<a href="https://kauth.kakao.com/oauth/logout?client_id=8916825993163e8fc4e9bc892c9224ce&logout_redirect_uri=http://localhost:81/member/logoutResult" >카카오로그아웃</a>
+		-->
 		<a href="#" id="logout">Logout</a>
 		<form action="/out" method="post" id="outForm">
 			<sec:csrfInput/>		

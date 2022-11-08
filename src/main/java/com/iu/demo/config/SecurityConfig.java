@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -18,6 +20,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.iu.demo.member.MemberSecurityService;
 import com.iu.demo.member.security.LoginFail;
 import com.iu.demo.member.security.LoginSuccess;
+import com.iu.demo.member.security.LogoutCustom;
+import com.iu.demo.member.security.LogoutSuccess;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +33,10 @@ public class SecurityConfig{
 	private LoginFail loginFail;
 	@Autowired
 	private MemberSecurityService memberSecurityService;
+	@Autowired
+	private  LogoutCustom logoutCustom;
+	@Autowired
+	private LogoutSuccess logoutSuccessHandler;
 	
 	@Bean
 	//public을 선언하면 defalut로 바꾸라는 메세지가 출력됨
@@ -86,9 +94,11 @@ public class SecurityConfig{
 		//이렇게 끊고가도 됨
 		httpSecurity.logout()
 						.logoutUrl("/out")
-						.logoutSuccessUrl("/")	
+//						.logoutSuccessUrl("/")	
 						.invalidateHttpSession(true)
 						.deleteCookies("JSESSIONID")
+						.addLogoutHandler(logoutCustom)
+						.logoutSuccessHandler(logoutSuccessHandler) //로그아웃 성공하면 가는곳
 						.permitAll() //만약 anyRequest().permitAll()하면 나머지는 모두 허용
 						.and()
 					.rememberMe()//RememberMe 설정
