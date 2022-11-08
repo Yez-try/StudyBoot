@@ -28,7 +28,10 @@
 	<sec:authorize access="isAuthenticated()">
 		<spring:message code="welcome" arguments="${member.name}"></spring:message>
 		<spring:message code="welcome2" arguments="${member.id},${member.name}" argumentSeparator=","></spring:message>
-			
+		<a href="#" id="logout">Logout</a>
+		<form action="/out" method="post" id="outForm">
+			<sec:csrfInput/>		
+		</form>	
 	</sec:authorize>
 	<!-- 로그인 전 -->
 	<sec:authorize access="!isAuthenticated()">
@@ -40,10 +43,6 @@
 	<sec:authorize access="hasRole('ADMIN')">
 		<a href="/admin">어드민</a>
 		<a href="/member/myPage">마이페이지</a>
-		<a href="#" id="logout">Logout</a>
-		<form action="/out" method="post" id="outForm">
-			<sec:csrfInput/>		
-		</form>
 	</sec:authorize>
 	<hr>
 	<!-- url경로가 Security Config설정에서 특정권한을 가진 URL로 등록되어 있는 경우 -->

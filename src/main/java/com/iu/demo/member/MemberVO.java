@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,11 +15,13 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import lombok.Data;
 
+//멤버VO는 UserDetails와 OAuth2User를 구현했다! 라고 말함
 @Data
-public class MemberVO implements UserDetails{
+public class MemberVO implements UserDetails, OAuth2User{
 
 	
 	@NotBlank
@@ -38,7 +41,22 @@ public class MemberVO implements UserDetails{
 	private Boolean enabled;
 	private List<MemberRoleVO> memberRoleVOs;
 	
+	//OAuth2User, Token 등 정보를 저장
+	private Map<String, Object> attributes;
 	
+	//Social Login (naver니?, kakao니? Google이니?)
+	private String social;
+	
+	//------OAuth2User Override-------------
+	//attributes의 getter역할
+	@Override
+	public Map<String, Object> getAttributes() {
+		// TODO Auto-generated method stub
+		return this.attributes;
+	}
+	
+	
+	//===========UserDetails Override===========
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// ?는 any 를 뜻함, extends GrantedAuthority 를 상속받는 아무타입이면 된다.
@@ -90,4 +108,7 @@ public class MemberVO implements UserDetails{
 		// false : 계정 비활성화
 		return true;
 	}
+	
+
+	
 }
