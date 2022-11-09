@@ -12,6 +12,8 @@ import javax.validation.Valid;
 import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +35,29 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("delete")
+	public ModelAndView setDelete(HttpSession session, String password, ModelAndView mv) throws Exception{
+		//1. Social인지, 일반인지 구분
+		SecurityContextImpl context = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
+		Authentication authentication = context.getAuthentication();
+		MemberVO member = (MemberVO)authentication.getPrincipal();
+		
+		log.info("member {}", member);
+		
+		
+		
+		if(member.getSocial()!=null) {
+			//소셜로그인이면
+			int result = memberService.setDelete(member);
+			if(result == 1) {
+				mv.setViewName("redirect:/out");				
+			}else {
+				
+			}
+		}
+		return mv;
+	}
 	
 	@GetMapping("logoutResult")
 	public String socialLogout() throws Exception{

@@ -32,6 +32,9 @@
 		<a href="https://kauth.kakao.com/oauth/logout?client_id=8916825993163e8fc4e9bc892c9224ce&logout_redirect_uri=http://localhost:81/member/logoutResult" >카카오로그아웃</a>
 		-->
 		<a href="#" id="logout">Logout</a>
+		<a href="/member/delete">회원탈퇴</a>
+		<!-- 카카오 로그아웃 -->
+		<button type="button" id="kakao">카카오로그아웃</button>
 		<form action="/out" method="post" id="outForm">
 			<sec:csrfInput/>		
 		</form>	
@@ -99,6 +102,7 @@
 		$("#logout").click(function() {
 			$("#outForm").submit()
 		})
+		
 	</script>
 
 </body>
