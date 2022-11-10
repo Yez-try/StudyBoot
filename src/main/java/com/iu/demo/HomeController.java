@@ -1,7 +1,10 @@
 package com.iu.demo;
 
+import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +22,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import com.iu.demo.board.qna.PostVO;
 import com.iu.demo.board.qna.QnaMapper;
 import com.iu.demo.member.MemberVO;
 
@@ -56,6 +61,36 @@ public class HomeController {
 		return "Member Role";
 	}
 	
+	@GetMapping("/web")
+	public String webClientTest() {
+//		Calendar ca = Calendar.getInstance(); //static 클래스 method (static선언)
+		
+		//1. create() 사용해 만들기
+		WebClient webClient = WebClient.create();
+//		WebClient webClient = WebClient.create("URI 주소");
+		
+		//2. bulider() 사용해 만들기
+		webClient = WebClient.builder()
+								.baseUrl("")
+								.defaultHeader("key", "value")
+								.defaultCookie("key", "value")
+								.build();
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("page", 1);
+		map.put("kind", "title");
+		
+		PostVO postVO = new PostVO();
+		
+		webClient.get()
+//					.uri("/list", map); //이렇게 파라미터를 넣을 수 있음
+					.uri("/list", postVO); //2렇게도 보낼수 있음
+		
+		
+		
+		return "";
+	}
+	
 	@GetMapping("/")
 	public String home(HttpSession session) throws Exception {	
 		
@@ -79,13 +114,20 @@ public class HomeController {
 		//URL, Method를 포함한 요청 객체 생성 (header와 param을 모음)
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 		
-		//요청 전송 결과 처리 
-		ResponseEntity<String> response = 
+		//요청 전송 결과 처리  (응답은 JSON형태로 온다)
+		ResponseEntity<PostVO> response = 
 				restTemplate. //요청 메서드명ForEntity  : 만약 Post요청이라면 postForEntity
 					getForEntity( //url, 반환받을 클래스 타입, request
 						"https://jsonplaceholder.typicode.com/posts/1", 
-						String.class, 
+						PostVO.class, 
 						request);
+		
+		
+		//여러개의 전송내용을 처리할떄는 어떻게?
+		//forEntity가 아닌 ForObject를 사용하면 내가 선언한 타입으로 받을 수 있다.
+		List<PostVO> resList = restTemplate.getForObject("https://jsonplaceholder.typicode.com/posts", List.class, request);
+		
+		
 		
 		//Post와 Get의 순서가 다르므로 주의
 //		restTemplate.postForEntity("url", request, MemberVO.class);
@@ -93,9 +135,10 @@ public class HomeController {
 		
 		
 		//내가 설정한 타입으로 Body를 반환해줌(이번에는 String으로 요청했기 때문에 String 타입으로 Body반환
-		String result = response.getBody();
+		PostVO result = response.getBody();
 		
-		log.info("response => {}", response);
+		log.info("PostVO => {}", response);
+		log.info("Posts => {}",resList);
 		
 		
 		//스프링 시큐리티가 세션에 넣은 key값을 확인해 보자 : SPRING_SECURITY_CONTEXT
