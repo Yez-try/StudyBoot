@@ -27,6 +27,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.iu.demo.board.qna.PostVO;
 import com.iu.demo.board.qna.QnaMapper;
 import com.iu.demo.member.MemberVO;
+import com.iu.demo.util.TestInterface;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 @Controller
@@ -42,6 +46,25 @@ public class HomeController {
 	
 	private final Logger log = LoggerFactory.getLogger(HomeController.class); //homeController내에 로그 기록을 찍겠다.
 //	private final Logger log = LoggerFactory.getLogger(this.getClass()); 
+	
+	@GetMapping("arrow")
+	public void arrow() {
+		
+//		TestInterface t2 = new TestInterface() {
+//			@Override
+//			public void info(String message) {
+//				System.out.println(message);
+//			}
+//		};
+//		
+//		t2.info("test2");
+		
+		//에로우 function (Lamda 식)
+		TestInterface t = (m) -> System.out.println(m);
+		t.info("test");
+		
+		
+	}
 	
 	@GetMapping("/admin")
 	@ResponseBody
@@ -62,6 +85,65 @@ public class HomeController {
 	}
 	
 	@GetMapping("/web")
+	public String webClientTry() {
+		
+		//요청해주는 객체 생성
+		WebClient webClient = WebClient.builder()
+										.baseUrl("https://jsonplaceholder.typicode.com/")
+										.build();
+		
+		//요청 보내고 결과 받기
+		Mono<ResponseEntity<PostVO>> res = webClient.get()
+													.uri("posts/1")
+													.retrieve()  //body를 받아 디코딩하는 메서드
+													.toEntity(PostVO.class);
+		
+		Mono<PostVO> res2 = webClient.get()
+									.uri("posts/2")
+									.retrieve()  
+									.bodyToMono(PostVO.class);
+		
+		Flux<PostVO> res3 = webClient.get()
+									.uri("posts")
+									.retrieve()
+									.bodyToFlux(PostVO.class);
+		
+
+		//응답을 받을때는 두가지 메서드 중에서 하나를 선태해 처리한다
+		//1. retrieve() : body 를 받아 간단히 디코딩
+		//2. exchange() : Client Response를 상태값과 Header를 함께 가져오는 메서드
+		
+		//exchange를 통해 세세한 컨트롤이 가능하지만, 모든 처리를 직접해야 하므로 메모리 누수 가능성이 있으므로 retrieve 권장
+		//메모리가 뭐지? Heap영역에 안쓰는 변수가 계속 남아있을 가능성이 있어요....!보통 가비지 컬렉터가 없애주지만..!
+		
+		//Retrieve() 크게 두가지의 객체타입을 결과로 받는데 
+		//[toEntity() :status, headers, body를 포함하는 responseEntity , 
+		//[toMono(), toFlux()] : body의 데이터만 받고싶을때, mono는 한개 이하의 결과를 처리, Flux는 n개의 결과를 처리]
+		
+		
+//		PostVO postVO =  res.block().getBody();
+		PostVO postVO = res2.block();
+		postVO = res3.blockFirst();
+		
+		log.info("webClientResult =>{}", res2);
+		log.info("postVO {}", postVO);
+		
+		//arrow function을 배워보자
+		//consumer ?  자바스크립트의 익명함수를 생각해보면, 함수명을 따로 선언하지 않고 사용한다. 그런것.!
+		//subscribe는 반복문
+		//매개변수를 s에 담는다. ex) 반복되는 res(flux)안의 각 postVO 중 하나를 꺼내 s에 담아라
+		//그리고 {}로 전달해준다.
+		res3.subscribe( (s) -> {
+			PostVO post = s; //s는 postVO타입이 맞다.
+			log.info("ID : {}", s.getId());
+			
+		});
+		
+		return "";
+	}
+
+	
+	
 	public String webClientTest() {
 //		Calendar ca = Calendar.getInstance(); //static 클래스 method (static선언)
 		
@@ -87,6 +169,10 @@ public class HomeController {
 					.uri("/list", postVO); //2렇게도 보낼수 있음
 		
 		
+		//POST요청하기
+		webClient.post()
+					.uri("")
+					.body(null); //파라미터는 이렇게
 		
 		return "";
 	}
@@ -137,8 +223,9 @@ public class HomeController {
 		//내가 설정한 타입으로 Body를 반환해줌(이번에는 String으로 요청했기 때문에 String 타입으로 Body반환
 		PostVO result = response.getBody();
 		
-		log.info("PostVO => {}", response);
-		log.info("Posts => {}",resList);
+		//뭐가 나올까?
+//		log.info("PostVO => {}", response);
+//		log.info("Posts => {}",resList);
 		
 		
 		//스프링 시큐리티가 세션에 넣은 key값을 확인해 보자 : SPRING_SECURITY_CONTEXT

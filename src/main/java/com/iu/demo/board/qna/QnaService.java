@@ -26,6 +26,13 @@ public class QnaService {
 	@Value("${my.upload.file}")
 	private String path;
 	private String folder = "qna/";
+		
+	
+	public String setSummerFile(MultipartFile files) throws Exception{
+		String fileName = fileManager.saveFile(files, path+folder);
+		fileName = "/file/"+folder+fileName;
+		return fileName;
+	}
 	
 	
 	public int setFileDelete(QnaFileVO fileVO) throws Exception{

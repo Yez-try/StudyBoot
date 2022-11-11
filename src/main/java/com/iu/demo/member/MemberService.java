@@ -1,5 +1,8 @@
 package com.iu.demo.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -12,8 +15,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -26,6 +31,31 @@ public class MemberService {
 	private String adminKey;
 	
 	public int setDelete(MemberVO memberVO) throws Exception{
+		
+		//webClient 생성
+		WebClient client = WebClient.builder()
+									.baseUrl("https://kapi.kakao.com/")
+									.build();
+		
+		//parameter 전달, map은 안됨!
+		MultiValueMap<String, String> map = new LinkedMultiValueMap();
+		map.add("target_id_type", "user_id");
+		map.add("target_id", memberVO.getId());
+		
+		Mono<String> res =  client.post()
+									.uri("v1/user/unlink")
+									.bodyValue(map)
+									.header("Authorization", "KakaoAK "+adminKey)
+									.header("Content-Type", "application/x-www-form-urlencoded")
+									.retrieve()
+									.bodyToMono(String.class);
+		
+		log.info("res.block() => {}", res.block());
+		
+		return 1;
+	}
+	
+	public int setDelete2(MemberVO memberVO) throws Exception{
 		//요청하자
 		RestTemplate restTemplate = new RestTemplate();
 		

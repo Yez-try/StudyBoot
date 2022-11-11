@@ -25,7 +25,7 @@
 
 	<div>
 		<form action="./write" method="post" enctype="multipart/form-data">
-			<sec:csrfInput/>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" id="csrfToken">
 			<div>
 				<label for="title">제목</label>
 				<input type="text" name="title" id="title" placeholder="title을 입력하세요">
@@ -44,10 +44,75 @@
 	</div>
 	<script>
       $('#contents').summernote({
-        placeholder: 'Hello Bootstrap 4',
         tabsize: 2,
-        height: 100
+        height: 500,
+		callbacks:{
+			onImageUpload: function(files) {
+			console.log("ImageUpload")
+			console.log("file", files)
+			const formData = new FormData();
+			//<input type="file"
+			formData.append('files', files[0])
+
+			let tokenName = $('#csrfToken').attr('name');
+			let tokenVal = $('#csrfToken').val();
+			formData.append(tokenName,tokenVal)
+			console.log("1111111",tokenName,":",tokenVal)
+
+			$.ajax({
+				type:"POST",
+				url:"summerFile",
+				data:formData,
+				cache:false,
+				processData:false,
+				contentType:false,
+				enctype:'multipart/form-data',
+				success:function(img){
+					let imgnode = '<img src="'+img+'">'
+					console.log(files[0].name, imgnode)
+					$("#contents").summernote('pasteHTML', imgnode, files[0].name)
+				}
+			})
+			},
+			onMediaDelete:function(file){
+					console.log("Delete Media")
+					console.log("DeleteFile =>", file)
+					deleteFile(file)
+			}
+		}
       });
+
+	  function deleteFile(file){
+		console.log(file.attr("src"))
+		let tokenName = $('#csrfToken').attr('name');
+		let tokenVal = $('#csrfToken').val();
+		console.log(tokenName,":",tokenVal)
+		const formData = new FormData();
+		formData.append(tokenName,tokenVal)
+		formData.append("fileName",file.attr("src"))
+		//파일 삭제 요청 (Get? Post? url주소만 알면 Get은 어디서든 지울수 있으니까 이번에는 Post로 가자)
+		$.ajax({
+				type:"POST",
+				url:"summerFileDelete",
+				data:formData,
+				cache:false,
+				processData:false,
+				contentType:false,
+				enctype:'multipart/form-data',
+				success:function(result){
+					console.log("result => ", result);
+				}
+			})
+		// $.post("./summerFileDelete", {
+		// 	tokenName:tokenVal,
+		// 	fileName:file.attr("src")
+		// }, function(result){
+		// 	console.log("result => ", result);
+		// })
+
+	  }
+
+
     </script>
 </body>
 </html>

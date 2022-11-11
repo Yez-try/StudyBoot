@@ -1,5 +1,6 @@
 package com.iu.demo.board.qna;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,24 @@ public class QnaController {
 
 	@Autowired
 	private QnaService qnaService;
+	
+	@PostMapping("summerFileDelete")
+	@ResponseBody
+	public String setSummerFileDelete(String fileName)throws Exception{
+		fileName = fileName.substring(fileName.lastIndexOf("/")+1);
+		log.info("fileName {} ",fileName);
+		return "1";
+	}
+
+	@PostMapping("summerFile")
+	@ResponseBody
+	public String summernote(MultipartFile files) throws Exception{
+		log.info("files {}",files);
+		//원래는 Service에 작업
+		String result = qnaService.setSummerFile(files);
+		
+		return result;
+	}
 	
 	@GetMapping("hack")
 	@ResponseBody
@@ -83,6 +102,7 @@ public class QnaController {
 		
 		return mv;
 	}
+	
 	
 	@PostMapping("filedelete")
 	@ResponseBody
